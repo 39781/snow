@@ -15,23 +15,17 @@ router.post('/botHandler',function(req, res){
 		.then(function(responseJson){
 			//console.log(JSON.stringify(responseJson));
 				res.status(200);
-			res.json({
-	
-	"data": {
-		"facebook": {
-			"text": "",
-			"quick_replies": [{
-				"content_type": "text",
-				"title": "Hariprasad",
-				"payload": "Hariprasad"
-			}, {
-				"content_type": "text",
-				"title": "Harikrishna",
-				"payload": "Harikrishna"
-			}]
-		}
-	}
-}).end();	
+			res.json({'speech': 'When',
+              'displayText': 'When',
+              'messages': 
+              [
+               {'title': 'when',
+                'replies': ['12:00',
+                            '13:00',
+                            '17:00',
+                            '18:00'],
+                'type': 2}],
+              'source': 'dimwei.com'}).end();	
 		
 			//res.json(responseJson).end();
 		})
