@@ -14,6 +14,7 @@ router.post('/botHandler',function(req, res){
 		return botHandler.processRequest(req, res)
 		.then(function(responseJson){
 			//console.log(JSON.stringify(responseJson));
+				res.status(200);
 			res.json({
 	"displayText": "",
 	"data": {
@@ -31,7 +32,7 @@ router.post('/botHandler',function(req, res){
 		}
 	}
 }).end();	
-			res.status(200);
+		
 			res.json(responseJson).end();
 		})
 		.catch(function(err){
