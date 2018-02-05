@@ -33,7 +33,7 @@ router.post('/botHandler',function(req, res){
 	}
 }).end();	
 		
-			res.json(responseJson).end();
+			//res.json(responseJson).end();
 		})
 		.catch(function(err){
 			res.status(400);
