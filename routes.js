@@ -16,7 +16,7 @@ router.post('/botHandler',function(req, res){
 			//console.log(JSON.stringify(responseJson));
 				res.status(200);
 			res.json({
-	"displayText": "",
+	
 	"data": {
 		"facebook": {
 			"text": "",
