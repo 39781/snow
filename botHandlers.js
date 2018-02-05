@@ -14,8 +14,7 @@ botHandlers.processRequest = function(req, res){
 		//const app = new DialogflowApp({request: req, response: res});								
 		botResponses.generateResponse(action, requestText)
 		.then(function(responseJson){
-			//responseJson.contextOut = inputContexts;			
-			console.log(responseJson);
+			//responseJson.contextOut = inputContexts;						
 			resolve(responseJson);
 		})
 		.catch(function(err){
