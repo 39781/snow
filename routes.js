@@ -15,7 +15,8 @@ router.post('/botHandler',function(req, res){
 		.then(function(responseJson){
 			console.log(JSON.stringify(responseJson));	
 			res.status(200);
-			res.json(responseJson).end();
+			res.send('welsome').end();
+			//res.json(responseJson).end();
 		})
 		.catch(function(err){
 			res.status(400);
