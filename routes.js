@@ -15,19 +15,7 @@ router.post('/botHandler',function(req, res){
 		.then(function(responseJson){
 			//console.log(JSON.stringify(responseJson));
 				res.status(200);
-			res.json({'speech': 'When',
-              'displayText': 'When',
-              'messages': 
-              [
-               {'title': 'when',
-                'replies': ['12:00',
-                            '13:00',
-                            '17:00',
-                            '18:00'],
-                'type': 2}],
-              'source': 'dimwei.com'}).end();	
-		
-			//res.json(responseJson).end();
+			res.json(responseJson).end();
 		})
 		.catch(function(err){
 			res.status(400);

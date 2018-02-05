@@ -74,21 +74,15 @@ var generateResponseTemplate = function(responseContent, responseViewModel){
 var generateQuickReplyResponse = function(responseContent){
 	return new Promise(function(resolve, reject){
 		console.log('generating quick reply Started');				
-		let responseTemplate = {};
+		let responseTemplate = {};		
 		responseTemplate.displayText = "";
-		responseTemplate.data = {
-			'facebook': {
-				"text": responseContent.subtitle,
-				"quick_replies": []
-			}
-		};		
-		responseContent.data.forEach(function(resp){			
-				responseTemplate.data.facebook.quick_replies.push({			
-					"content_type":"text",
-					"title": resp,
-					"payload": resp
-				});			
-		})		
+		responseTemplate.speech = "";
+		responseTemplate.messages = [{
+			'title': responseContent.title,
+			'replies':responseContent.data,
+			'type':2
+		}];
+		responseTemplate.source='servNow';
 		resolve(responseTemplate);
 	});
 }
