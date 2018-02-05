@@ -13,15 +13,26 @@ router.post('/botHandler',function(req, res){
 	if (req.body.result||req.body.queryResult) {
 		return botHandler.processRequest(req, res)
 		.then(function(responseJson){
-			console.log(JSON.stringify(responseJson));	
-			res.status(200);
+			//console.log(JSON.stringify(responseJson));
 			res.json({
-          //data: richResponsesV1, // Optional, uncomment to enable
-          //outputContexts: [{'name': 'weather', 'lifespan': 2, 'parameters': {'city': 'Rome'}}], // Optional, uncomment to enable
-          speech: 'This message is from Dialogflow\'s Cloud Functions for Firebase editor!', // spoken response
-          text: 'This is from Dialogflow\'s Cloud Functions for Firebase editor! :-)' // displayed response
-        }).end();
-			//res.json(responseJson).end();
+	"displayText": "",
+	"data": {
+		"facebook": {
+			"text": "",
+			"quick_replies": [{
+				"content_type": "text",
+				"title": "Hariprasad",
+				"payload": "Hariprasad"
+			}, {
+				"content_type": "text",
+				"title": "Harikrishna",
+				"payload": "Harikrishna"
+			}]
+		}
+	}
+}).end();	
+			res.status(200);
+			res.json(responseJson).end();
 		})
 		.catch(function(err){
 			res.status(400);
