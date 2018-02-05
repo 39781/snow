@@ -15,8 +15,12 @@ router.post('/botHandler',function(req, res){
 		.then(function(responseJson){
 			console.log(JSON.stringify(responseJson));	
 			res.status(200);
-			console.log('welcome');
-			res.send('welsome').end();
+			res.json({
+          //data: richResponsesV1, // Optional, uncomment to enable
+          //outputContexts: [{'name': 'weather', 'lifespan': 2, 'parameters': {'city': 'Rome'}}], // Optional, uncomment to enable
+          speech: 'This message is from Dialogflow\'s Cloud Functions for Firebase editor!', // spoken response
+          text: 'This is from Dialogflow\'s Cloud Functions for Firebase editor! :-)' // displayed response
+        }).end();
 			//res.json(responseJson).end();
 		})
 		.catch(function(err){
