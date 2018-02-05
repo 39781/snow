@@ -1,5 +1,4 @@
 var sNow 	= 	require('./config');
-
 var responses = {};
 
 responses.generateResponse = function(action,requestText){
@@ -10,15 +9,12 @@ responses.generateResponse = function(action,requestText){
 			subtitle:"",
 			imgUrl:"http://www.cromacampus.com/wp-content/uploads/2017/05/servicenow-tool-training.png",
 			data:""	
-		};		
-		if(flightConfig.intentActionResponseTypes[action]=== undefined){
-			action = "greeting";
-		}
+		};				
 		if(action == "CreateIncident"){
-			responseContent.title = "please select Caller"						
+			responseContent.title = "please select Caller";					
 			responseContent.data = sNow.caller;			
-		}else if(action == "Caller")
-			responseContent.title = "please select category"						
+		}else if(action == "Caller"){
+			responseContent.title = "please select category";						
 			responseContent.data = sNow.category;
 		}else if(action == "Category"){			
 			responseContent.title = "please select sub category"						
