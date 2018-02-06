@@ -11,7 +11,7 @@ responses.generateResponse = function(action,requestText, payloadText, sessionId
 			data:""	
 		};	
 		if(sessionId){
-			incidentTickets[sessionId]={};
+			global.incidentTickets[sessionId]={};
 		}
 		if(action == "createIncident"){			
 			responseContent.title = "please select caller";	
@@ -25,19 +25,19 @@ responses.generateResponse = function(action,requestText, payloadText, sessionId
 				nextOptions[1] = nextOptions[1].trim();
 				nextOptions[2] = nextOptions[2].trim();
 			if(nextOptions[1] == "caller"){
-				incidentTickets[sessionId]['caller']= nextOptions[2];
+				global.incidentTickets[sessionId]['caller']= nextOptions[2];
 				responseContent.title = "please select category";
 				responseContent.subTitle = 'category';				
 				responseContent.data = sNow.serviceNow.category;
 				////responseContent.nextIntent = 'category';
 			}else if(nextOptions == "category"){	
-				incidentTickets[sessionId]['category']= nextOptions[2];			
+				global.incidentTickets[sessionId]['category']= nextOptions[2];			
 				responseContent.title = "please select sub category"						
 				responseContent.data = sNow.serviceNow.subCategory;
 				responseContent.subTitle = 'subCategory';
 				////responseContent.nextIntent = 'subCategory';
 			}else if(nextOptions == "subCategory"){
-				incidentTickets[sessionId]['subCategory']= nextOptions[2];			
+				global.incidentTickets[sessionId]['subCategory']= nextOptions[2];			
 				responseContent.title = "please select sub contactType"						
 				responseContent.data = sNow.serviceNow.contactType;
 				responseContent.subTitle = 'contactType';
