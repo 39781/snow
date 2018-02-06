@@ -10,39 +10,50 @@ responses.generateResponse = function(action,requestText){
 			imgUrl:"http://www.cromacampus.com/wp-content/uploads/2017/05/servicenow-tool-training.png",
 			data:""	
 		};				
-		if(action == "CreateIncident"){
+		if(action == "createIncident"){
 			responseContent.title = "please select Caller";					
-			responseContent.data = sNow.caller;			
-		}else if(action == "Caller"){
+			responseContent.data = sNow.caller;	
+			responseContent.nextIntent = 'caller';	
+		}else if(action == "caller"){
 			responseContent.title = "please select category";						
 			responseContent.data = sNow.category;
-		}else if(action == "Category"){			
+			responseContent.nextIntent = 'category';
+		}else if(action == "category"){			
 			responseContent.title = "please select sub category"						
 			responseContent.data = sNow.subCategory;
+			responseContent.nextIntent = 'subCategory';
 		}else if(action == "subCategory"){
 			responseContent.title = "please select sub contactType"						
 			responseContent.data = sNow.contactType;
+			responseContent.nextIntent = 'contactType';
 		}else if(action == "contactType"){
 			responseContent.title = "please select Incident state"						
 			responseContent.data = sNow.incidentState;
+			responseContent.nextIntent = 'incidentState';
 		}else if(action == "incidentState"){
 			responseContent.title = "please select  state"						
 			responseContent.data = sNow.state;
+			responseContent.nextIntent = 'state';
 		}else if(action == "state"){
 			responseContent.title = "please select impact"						
 			responseContent.data = sNow.impact;
+			responseContent.nextIntent = 'impact';
 		}else if(action == "impact"){
 			responseContent.title = "please select urgency"						
 			responseContent.data = sNow.urgency;
+			responseContent.nextIntent = 'urgency';
 		}else if(action == "urgency"){
 			responseContent.title = "please select priority"						
 			responseContent.data = sNow.priority;
+			responseContent.nextIntent = 'priority';
 		}else if(action == "priority"){
 			responseContent.title = "please select working group"						
 			responseContent.data = sNow.workingGroup;
+			responseContent.nextIntent = 'workingGroup';
 		}else if(action == "workingGroup"){
 			responseContent.title = "please select assignedTo"						
 			responseContent.data = sNow.assignedTo;
+			responseContent.nextIntent = 'assignedTo';
 		}else if(action == "assignedTo"){
 			responseContent.title = "Incident created"						
 			responseContent.data = "";
@@ -78,7 +89,7 @@ var generateQuickReplyResponse = function(responseContent){
 		responseTemplate.displayText = "";
 		responseTemplate.speech = "";
 		responseTemplate.followupEvent= {
-			"name": "Caller",
+			"name": responseContent.nextIntent,
 			"data": {}
 		}	 
 		responseTemplate.messages = [{
