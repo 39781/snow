@@ -4,7 +4,7 @@ var routes = require('./routes');
 var app = express();
 
 var port = process.env.PORT || 3000;
-incidentTickets = {};
+global.incidentTickets = {};
 app.use(bodyParser.urlencoded({ extended: false })) 
 app.use(bodyParser.json());
 app.use(routes);
