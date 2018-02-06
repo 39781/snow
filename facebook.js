@@ -15,7 +15,7 @@ responses.generateResponse = function(action,requestText){
 			responseContent.subTitle = 'caller';	
 			responseContent.data = sNow.caller;	
 			////responseContent.nextIntent = 'caller';	
-		}else if(action == 'default'){
+		}else {
 			console.log('action default')
 			var nextOptions =requestText.split('-')[1].trim();
 			if(nextOptions == "caller"){
