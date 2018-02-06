@@ -15,8 +15,7 @@ botHandlers.processRequest = function(req, res){
 		//const googleAssistantRequest = 'google'; // Constant to identify Google Assistant requests		
 		//const app = new DialogflowApp({request: req, response: res});
 		console.log(sessionId);
-		if(typeof(req.session[sessionId])=='undefined') {
-			
+		if(typeof(req.session[sessionId])=='undefined') {			
 			req.session[sessionId]= {};
 			console.log(req.session[sessionId]);
 		}else{
@@ -27,7 +26,7 @@ botHandlers.processRequest = function(req, res){
 			var nextOptions = payloadText.split('-');		
 			nextOptions[1] = nextOptions[1].trim();
 			nextOptions[2] = nextOptions[2].trim();
-			action = nextOptions[2];
+			action = nextOptions[1];
 			req.session[sessionId][nextOptions[1]] = nextOptions[2];
 		}
 						
