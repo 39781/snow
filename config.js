@@ -2,7 +2,7 @@ var serviceNow = {
 	category 		: ['inquiry/Help','Software','Hardware','Network','Database'],
 	subCategory		: ['Antivirus','Email','Internal Application'],
 	contactType 	: ['Email','Phone','Self-service','Walk-in'],
-	IncidentState 	: ['In-progress','On-Hold','Resolved','Closed','Canceled'],
+	incidentState 	: ['In-progress','On-Hold','Resolved','Closed','Canceled'],
 	state 			: ['In-progress','On-Hold','Resolved','Closed','Canceled'],
 	impact 			: ['High','Medium','Low'],
 	urgency 		: ['High','Medium','Low'],
