@@ -19,9 +19,9 @@ botHandlers.processRequest = function(req, res){
 		if(typeof(intentTickets[sessionId])=='undefined') {			
 			intentTickets[sessionId] = {};
 			//req.session[sessionId]= {};
-			//console.log(req.session[sessionId]);
+			console.log(intentTickets[sessionId]);
 		}else{
-			//console.log(req.session[sessionId]);
+			console.log(intentTickets[sessionId]);
 		}
 		
 		if(['Create Incident','Track Incident'].indexOf(payloadText)<0){
