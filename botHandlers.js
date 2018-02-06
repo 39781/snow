@@ -87,19 +87,21 @@ function createIncident(sessId){
 		}; 
 		delete incidentTickets[sessId];		
 		request(options, function (error, response, body) {
-			if (error) {
-				console.log('error',error);
-				reject (error);
-			}else{				
-				resolve({  
+			var rsp = {  
 					"speech":"",
 					"displayText":"",
 					"data":{  
 						"facebook":{  
-							"text":	"Incident Created Ur Incident Number <div style='border:1px solid red'>: "+body.result.number+" please Not for future reference" 
+							"text":	"";
 						}
 					}
-				});
+				}
+			if (error) {
+				rsp.data.facebook.text = JSON.stringify(error);
+				reject (rsp);
+			}else{			
+				rsp.data.facebook.text = "Incident Created Ur Incident Number <div style='border:1px solid red'>: "+body.result.number+" please Not for future reference" 	
+				resolve(rsp);
 			}          
 		});
 		
