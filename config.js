@@ -1,6 +1,7 @@
 var config ={
 	
 	serviceNow : {
+		menu			: ['Create','Track'],	
 		category 		: ['inquiry/Help','Software','Hardware','Network','Database'],
 		subCategory		: ['Antivirus','Email','Internal Application'],
 		contactType 	: ['Email','Phone','Self-service','Walk-in'],
@@ -10,7 +11,8 @@ var config ={
 		urgency 		: ['High','Medium','Low'],
 		priority 		: ['5 - planning'],
 		workingGroup	: ['CAB Approval','Change Management','Chat Support','Consumer Service Support','Database','Hardware','eCAB Approval','Client Software Distribution Administrators',						'HR Admin','HR Support','HR VIP Watchlist','IT Finance CAB','IT Securities','LDAP Admins','ITSM Engineering','Network','RMA Approvers','Service Desk','ServiceNow VA Group',						'Team Development Code Reviewers'],
-		caller			: ['Hariprasad','Harikrishna']
+		caller			: ['Hariprasad','Harikrishna'],
+		assignedTo		:	['Arun','Harikrishna','sandeep','rajesh','anitha','shruthi']
 	},
 	incidentTicket : {
 		caller			: "",
