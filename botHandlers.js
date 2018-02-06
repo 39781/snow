@@ -39,6 +39,16 @@ botHandlers.processRequest = function(req, res){
 			console.log(responseJson);
 			if(responseJson.action == 'create')	{			
 				return createIncident(responseJson.sessionId);
+			}if(responseJson.action == 'track'){
+				return {  
+					"speech":"",
+					"displayText":"",
+					"data":{  
+						"facebook":{  
+							"text":	"Please enter incidet number";
+						}
+					}
+				}
 			}else{
 				return responseJson;
 			}
