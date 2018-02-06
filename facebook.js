@@ -10,8 +10,8 @@ responses.generateResponse = function(action,requestText, payloadText, sessionId
 			imgUrl:"http://www.cromacampus.com/wp-content/uploads/2017/05/servicenow-tool-training.png",
 			data:""	
 		};	
-		if(sessionId&&(typeof(incidentTickets[sessionId])=='undefined')){
-			incidentTickets[sessionId]={};
+		if(sessionId&&(typeof(global.incidentTickets[sessionId])=='undefined')){
+			global.incidentTickets[sessionId]={};
 		}
 		if(action == "createIncident"){			
 			responseContent.title = "please select caller";	
