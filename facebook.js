@@ -17,41 +17,49 @@ responses.generateResponse = function(action,requestText, payloadText){
 			////responseContent.nextIntent = 'caller';	
 		}else {
 			console.log('action default')			
-			var nextOptions =payloadText.split('-')[1].trim();
-			
+			var nextOptions =payloadText.split('-')[1].trim();			
 			if(nextOptions == "caller"){
-				responseContent.title = "please select category";						
+				responseContent.title = "please select category";
+				responseContent.subTitle = 'category';				
 				responseContent.data = sNow.category;
 				////responseContent.nextIntent = 'category';
 			}else if(nextOptions == "category"){			
 				responseContent.title = "please select sub category"						
 				responseContent.data = sNow.subCategory;
+				responseContent.subTitle = 'subCategory';
 				////responseContent.nextIntent = 'subCategory';
 			}else if(nextOptions == "subCategory"){
 				responseContent.title = "please select sub contactType"						
 				responseContent.data = sNow.contactType;
+				responseContent.subTitle = 'contactType';
 				//responseContent.nextIntent = 'contactType';
 			}else if(nextOptions == "contactType"){
 				responseContent.title = "please select Incident state"						
+				responseContent.subTitle = 'incidentState';
 				responseContent.data = sNow.incidentState;
 				//responseContent.nextIntent = 'incidentState';
 			}else if(nextOptions == "incidentState"){
 				responseContent.title = "please select  state"						
 				responseContent.data = sNow.state;
+				responseContent.subTitle = 'state';
 				//responseContent.nextIntent = 'state';
 			}else if(nextOptions == "state"){
 				responseContent.title = "please select impact"						
 				responseContent.data = sNow.impact;
+				responseContent.subTitle = 'impact';
 				//responseContent.nextIntent = 'impact';
 			}else if(nextOptions == "impact"){
 				responseContent.title = "please select urgency"						
 				responseContent.data = sNow.urgency;
+				responseContent.subTitle = 'urgency';
 				//responseContent.nextIntent = 'urgency';
 			}else if(nextOptions == "urgency"){
 				responseContent.title = "please select priority"						
 				responseContent.data = sNow.priority;
+				responseContent.subTitle = 'priority';
 				//responseContent.nextIntent = 'priority';
 			}else if(nextOptions == "priority"){
+				responseContent.subTitle = 'workingGroup';
 				responseContent.title = "please select working group"						
 				responseContent.data = sNow.workingGroup;
 				//responseContent.nextIntent = 'workingGroup';
