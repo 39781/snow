@@ -1,7 +1,7 @@
 var sNow 	= 	require('./config');
 var responses = {};
 
-responses.generateResponse = function(action,requestText, contentType, contentValue){
+responses.generateResponse = function(action,requestText, contentType){
 	return new Promise(function(resolve, reject){
 		console.log('generate Response started');
 		var responseContent={
@@ -9,17 +9,11 @@ responses.generateResponse = function(action,requestText, contentType, contentVa
 			subtitle:"",
 			imgUrl:"http://www.cromacampus.com/wp-content/uploads/2017/05/servicenow-tool-training.png",
 			data:""	
-		};	
-		if(typeof(global.incidentTickets[sessionId])!='undefined')
-		console.log(global.incidentTickets[sessionId]);
-		if(sessionId&&(typeof(global.incidentTickets[sessionId])=='undefined')){
-			global.incidentTickets[sessionId]={};
-		}
+		};			
 		if(action == "createIncident"){			
 			responseContent.title = "please select caller";	
 			responseContent.subTitle = 'caller';	
-			responseContent.data = sNow.serviceNow.caller;	
-			////responseContent.nextIntent = 'caller';	
+			responseContent.data = sNow.serviceNow.caller;				
 		}else {
 			console.log('action default')						
 			if(contentType == "caller"){				
@@ -66,8 +60,7 @@ responses.generateResponse = function(action,requestText, contentType, contentVa
 				responseContent.title = "Incident created"						
 				responseContent.data = "";
 			}
-		}		
-		console.log(incidentTickets[sessionId]);
+		}				
 		generateResponseTemplate(responseContent, 'quickreply')
 		.then((resp)=>{ 			
 			//console.log(responseContent, responseViewModel);			
@@ -129,7 +122,7 @@ var generateQuickReplyResponseOld = function(responseContent, responseViewModel)
 				"payload": " you selected option - "+responseContent.subTitle+" - "+resp
 			});			
 		})				
-		resolve({response:responseTemplate,type:responseContent.subTitle,typeValue:);
+		resolve(responseTemplate);
 	});
 }
 

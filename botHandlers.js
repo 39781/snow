@@ -1,6 +1,6 @@
 var DialogflowApp	=	require('actions-on-google').DialogflowApp;
 var botHandlers = {};
-//var botResponses = require('./facebook.js');
+var botResponses = require('./facebook.js');
 botHandlers.processRequest = function(req, res){
 	return new Promise(function(resolve, reject){
 		console.log('Process request started');
@@ -26,8 +26,7 @@ botHandlers.processRequest = function(req, res){
 		req.session[sessionId][nextOptions[1]] = nextOptions[2];
 		botResponses.generateResponse(action, requestText, nextOptions[1])
 		.then(function(responseJson){
-			//responseJson.contextOut = inputContexts;
-			req.session[sessionId][responseJson.type]=responseJson.typeValue;	
+			//responseJson.contextOut = inputContexts;			
 			resolve(responseJson);
 		})
 		.catch(function(err){
