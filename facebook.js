@@ -1,7 +1,7 @@
 var sNow 	= 	require('./config');
 var responses = {};
 
-responses.generateResponse = function(action,requestText){
+responses.generateResponse = function(action,requestText, payloadText){
 	return new Promise(function(resolve, reject){
 		console.log('generate Response started');
 		var responseContent={
@@ -16,8 +16,9 @@ responses.generateResponse = function(action,requestText){
 			responseContent.data = sNow.caller;	
 			////responseContent.nextIntent = 'caller';	
 		}else {
-			console.log('action default')
-			var nextOptions =requestText.split('-')[1].trim();
+			console.log('action default')			
+			var nextOptions =payloadText.split('-')[1].trim();
+			
 			if(nextOptions == "caller"){
 				responseContent.title = "please select category";						
 				responseContent.data = sNow.category;
