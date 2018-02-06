@@ -1,6 +1,6 @@
 var DialogflowApp	=	require('actions-on-google').DialogflowApp;
 var botHandlers = {};
-//var botResponses = require('./facebook.js');
+var botResponses = require('./facebook.js');
 botHandlers.processRequest = function(req, res){
 	return new Promise(function(resolve, reject){
 		console.log('Process request started');

@@ -77,7 +77,7 @@ var generateQuickReplyResponse = function(responseContent){
 		let responseTemplate = {};		
 		responseTemplate.displayText = "";
 		responseTemplate.speech = "";
-		responseTemplate.followupEvent: {
+		responseTemplate.followupEvent= {
 			"name": "Caller",
 			"data": {}
 		}	 

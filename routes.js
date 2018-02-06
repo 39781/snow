@@ -13,7 +13,7 @@ router.post('/botHandler',function(req, res){
 	if (req.body.result||req.body.queryResult) {
 		return botHandler.processRequest(req, res)
 		.then(function(responseJson){
-			//console.log(JSON.stringify(responseJson));
+			console.log(JSON.stringify(responseJson));
 				res.status(200);
 			res.json(responseJson).end();
 		})
