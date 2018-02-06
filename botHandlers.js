@@ -19,19 +19,19 @@ botHandlers.processRequest = function(req, res){
 		console.log(sessionId);
 		var actionValue = "";
 		//consoe.log(req.session);
-		if(typeof(intentTickets[sessionId])=='undefined') {			
-			intentTickets[sessionId] = {};
+		if(typeof(incidentTickets[sessionId])=='undefined') {			
+			incidentTickets[sessionId] = {};
 			//req.session[sessionId]= {};
-			console.log(intentTickets[sessionId]);
+			console.log(incidentTickets[sessionId]);
 		}else{
-			console.log(intentTickets[sessionId]);
+			console.log(incidentTickets[sessionId]);
 		}
 		if(action !='greeting'){
 			var nextOptions = payloadText.split('-');		
 			nextOptions[1] = nextOptions[1].trim();
 			nextOptions[2] = nextOptions[2].trim();
 			action = nextOptions[1];
-			intentTickets[sessionId][nextOptions[1]] = nextOptions[2];	
+			incidentTickets[sessionId][nextOptions[1]] = nextOptions[2];	
 			actionValue = nextOptions[2]
 		}					
 		botResponses.generateResponse(action, requestText, sessionId, actionValue)
@@ -56,7 +56,7 @@ botHandlers.processRequest = function(req, res){
 }
 
 function createIncident(sessId){
-	console.log('creation started');		
+	console.log('creation started',incidentTickets[sessId]);		
 	return new Promise(function(resolve,reject){
 		var options = { 
 			method: 'POST',
