@@ -10,7 +10,7 @@ var config ={
 		impact 			: ['High','Medium','Low'],
 		urgency 		: ['High','Medium','Low'],
 		priority 		: ['5 - planning'],
-		workingGroup	: ['CAB Approval','Change Management','Chat Support','Consumer Service Support','Database','Hardware','eCAB Approval','Client Software Distribution Administrators',						'HR Admin','HR Support','HR VIP Watchlist','IT Finance CAB','IT Securities','LDAP Admins','ITSM Engineering','Network','RMA Approvers','Service Desk','ServiceNow VA Group',						'Team Development Code Reviewers'],
+		workingGroup	: ['CAB Approval','Change Management','Chat Support','Consumer Service Support','Database','Hardware','eCAB Approval','HR Admin','HR Support','HR VIP Watchlist','IT Finance CAB'],
 		caller			: ['Hariprasad','Harikrishna'],
 		assignedTo		:	['Arun','Harikrishna','sandeep','rajesh','anitha','shruthi']
 	},
