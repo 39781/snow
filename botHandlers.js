@@ -13,10 +13,21 @@ botHandlers.processRequest = function(req, res){
 		var sessionId = (req.body.sessionId)?req.body.sessionId:'';		
 		var botResponses = require('./'+requestSource.toLowerCase());		
 		//const googleAssistantRequest = 'google'; // Constant to identify Google Assistant requests		
-		//const app = new DialogflowApp({request: req, response: res});								
-		botResponses.generateResponse(action, requestText, payloadText, sessionId)
+		//const app = new DialogflowApp({request: req, response: res});
+		
+		if(typeof(req.session[sessionId])=='undefined') {
+			req.session[sessionId]= {};
+		}else{
+			console.log(req.session[sessionId]);
+		}
+		var nextOptions =payloadText.split('-');		
+		nextOptions[1] = nextOptions[1].trim();
+		nextOptions[2] = nextOptions[2].trim();		
+		req.session[sessionId][nextOptions[1]] = nextOptions[2];
+		botResponses.generateResponse(action, requestText, nextOptions[1])
 		.then(function(responseJson){
-			//responseJson.contextOut = inputContexts;						
+			//responseJson.contextOut = inputContexts;
+			req.session[sessionId][responseJson.type]=responseJson.typeValue;	
 			resolve(responseJson);
 		})
 		.catch(function(err){

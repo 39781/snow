@@ -1,7 +1,7 @@
 var sNow 	= 	require('./config');
 var responses = {};
 
-responses.generateResponse = function(action,requestText, payloadText, sessionId){
+responses.generateResponse = function(action,requestText, contentType, contentValue){
 	return new Promise(function(resolve, reject){
 		console.log('generate Response started');
 		var responseContent={
@@ -21,70 +21,48 @@ responses.generateResponse = function(action,requestText, payloadText, sessionId
 			responseContent.data = sNow.serviceNow.caller;	
 			////responseContent.nextIntent = 'caller';	
 		}else {
-			console.log('action default')			
-			var nextOptions =payloadText.split('-');
-				console.log(nextOptions);
-				nextOptions[1] = nextOptions[1].trim();
-				nextOptions[2] = nextOptions[2].trim();
-			if(nextOptions[1] == "caller"){
-				global.incidentTickets[sessionId]['caller']= nextOptions[2];
+			console.log('action default')						
+			if(contentType == "caller"){				
 				responseContent.title = "please select category";
 				responseContent.subTitle = 'category';				
-				responseContent.data = sNow.serviceNow.category;
-				////responseContent.nextIntent = 'category';
-			}else if(nextOptions == "category"){	
-				global.incidentTickets[sessionId]['category']= nextOptions[2];			
+				responseContent.data = sNow.serviceNow.category;				
+			}else if(contentType == "category"){					
 				responseContent.title = "please select sub category"						
 				responseContent.data = sNow.serviceNow.subCategory;
-				responseContent.subTitle = 'subCategory';
-				////responseContent.nextIntent = 'subCategory';
-			}else if(nextOptions == "subCategory"){
-				global.incidentTickets[sessionId]['subCategory']= nextOptions[2];			
+				responseContent.subTitle = 'subCategory';				
+			}else if(contentType == "subCategory"){				
 				responseContent.title = "please select sub contactType"						
 				responseContent.data = sNow.serviceNow.contactType;
-				responseContent.subTitle = 'contactType';
-				//responseContent.nextIntent = 'contactType';
-			}else if(nextOptions == "contactType"){
-				incidentTickets[sessionId]['contactType']= nextOptions[2];			
+				responseContent.subTitle = 'contactType';				
+			}else if(contentType == "contactType"){				
 				responseContent.title = "please select Incident state"						
 				responseContent.subTitle = 'incidentState';
-				responseContent.data = sNow.serviceNow.incidentState;
-				//responseContent.nextIntent = 'incidentState';
-			}else if(nextOptions == "incidentState"){
-				incidentTickets[sessionId]['incidentState']= nextOptions[2];			
+				responseContent.data = sNow.serviceNow.incidentState;				
+			}else if(contentType == "incidentState"){
 				responseContent.title = "please select  state"						
 				responseContent.data = sNow.serviceNow.state;
-				responseContent.subTitle = 'state';
-				//responseContent.nextIntent = 'state';
-			}else if(nextOptions == "state"){
-				incidentTickets[sessionId]['state']= nextOptions[2];			
+				responseContent.subTitle = 'state';				
+			}else if(contentType == "state"){				
 				responseContent.title = "please select impact"						
 				responseContent.data = sNow.serviceNow.impact;
-				responseContent.subTitle = 'impact';
-				//responseContent.nextIntent = 'impact';
-			}else if(nextOptions == "impact"){
-				incidentTickets[sessionId]['impact']= nextOptions[2];			
+				responseContent.subTitle = 'impact';				
+			}else if(contentType == "impact"){				
 				responseContent.title = "please select urgency"						
 				responseContent.data = sNow.serviceNow.urgency;
-				responseContent.subTitle = 'urgency';
-				//responseContent.nextIntent = 'urgency';
-			}else if(nextOptions == "urgency"){
+				responseContent.subTitle = 'urgency';				
+			}else if(contentType == "urgency"){
 				responseContent.title = "please select priority"						
 				responseContent.data = sNow.serviceNow.priority;
-				responseContent.subTitle = 'priority';
-				//responseContent.nextIntent = 'priority';
-			}else if(nextOptions == "priority"){
-				incidentTickets[sessionId]['priority']= nextOptions[2];			
-				responseContent.subTitle = 'workingGroup';
+				responseContent.subTitle = 'priority';				
+			}else if(contentType == "priority"){				
 				responseContent.title = "please select working group"						
-				responseContent.data = sNow.serviceNow.workingGroup;
-				//responseContent.nextIntent = 'workingGroup';
-			}else if(nextOptions == "workingGroup"){
-				incidentTickets[sessionId]['workingGroup']= nextOptions[2];			
+				responseContent.data = sNow.serviceNow.workingGroup;				
+				responseContent.subTitle = 'workingGroup';
+			}else if(contentType == "workingGroup"){				
 				responseContent.title = "please select assignedTo"						
-				responseContent.data = sNow.serviceNow.assignedTo;
-				//responseContent.nextIntent = 'assignedTo';
-			}else if(nextOptions == "assignedTo"){
+				responseContent.data = sNow.serviceNow.assignedTo;	
+				responseContent.subTitle = 'assignedTo';				
+			}else if(contentType == "assignedTo"){
 				responseContent.title = "Incident created"						
 				responseContent.data = "";
 			}
@@ -150,9 +128,8 @@ var generateQuickReplyResponseOld = function(responseContent, responseViewModel)
 				"title": resp,
 				"payload": " you selected option - "+responseContent.subTitle+" - "+resp
 			});			
-		})		
-		console.log(responseTemplate);
-		resolve(responseTemplate);
+		})				
+		resolve({response:responseTemplate,type:responseContent.subTitle,typeValue:);
 	});
 }
 
