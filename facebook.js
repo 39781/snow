@@ -1,7 +1,7 @@
 var sNow 	= 	require('./config');
 var responses = {};
 
-responses.generateResponse = function(action,requestText,sessId){
+responses.generateResponse = function(action,requestText,sessId, actionValue){
 	return new Promise(function(resolve, reject){
 		console.log('generate Response started');
 		var responseContent={
@@ -10,13 +10,15 @@ responses.generateResponse = function(action,requestText,sessId){
 			imgUrl:"http://www.cromacampus.com/wp-content/uploads/2017/05/servicenow-tool-training.png",
 			data:""	
 		};		
+		console.log(action);
 		if(action == 'greeting'){
 			responseContent.title = "please select one option";	
 			responseContent.subTitle = 'menu';	
 			responseContent.data = sNow.serviceNow.menu;
-		}else if(action == 'Track'){
+		}else if(action == 'menu'&&actionValue == 'Track'){
 			resolve({action:"track",sessionId:sessId});
-		}else if(action == "Create"){			
+		}else if(action == "menu"&&actionValue == 'Create'){			
+			console.log(action);
 			responseContent.title = "please select caller";	
 			responseContent.subTitle = 'caller';	
 			responseContent.data = sNow.serviceNow.caller;				
