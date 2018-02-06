@@ -11,7 +11,7 @@ responses.generateResponse = function(action,requestText,sessId, actionValue){
 			data:""	
 		};				
 		if(action == 'greeting'){
-			responseContent.title = "please select one option";	
+			responseContent.title = "Hi, I am ServiceNow, I can help u to create or track incidents. please select an option from below menu, so I can help u";	
 			responseContent.subTitle = 'menu';	
 			responseContent.data = sNow.serviceNow.menu;
 		}else if(action == "menu"&&actionValue == 'Create'){			
