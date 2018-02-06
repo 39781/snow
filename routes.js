@@ -11,9 +11,9 @@ router.post('/botHandler',function(req, res){
 	//console.log('Dialogflow Request headers: ' + JSON.stringify(req.headers));
 	console.log('Dialogflow Request body: ' + JSON.stringify(req.body));	
 	res.status(200);
-	res.json(responseJson).end({"speech":"",
+	res.json({"speech":"",
 	"displayText":"Incident Created Ur Incident Number <div style='border:1px solid red'>: INC0011025 please Not for future reference"
-	});
+	}).end();
 			
 	/*if (req.body.result||req.body.queryResult) {
 		return botHandler.processRequest(req, res)
