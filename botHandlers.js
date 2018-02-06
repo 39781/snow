@@ -9,7 +9,7 @@ botHandlers.processRequest = function(req, res){
 		let parameters = req.body.result.parameters; // https://dialogflow.com/docs/actions-and-parameters		
 		let inputContexts = req.body.result.contexts; // https://dialogflow.com/docs/contexts
 		let requestSource = (req.body.originalRequest) ? req.body.originalRequest.source : undefined;	
-		let requestText = (req.body.originalRequest.data.message)?req.body.originalRequest.data.message.text:'';				
+		let actionValue = (req.body.originalRequest.data.message)?req.body.originalRequest.data.message.text:'';				
 		let payloadText = (req.body.originalRequest.data.message.quick_reply)?req.body.originalRequest.data.message.quick_reply.payload:'';		
 		var sessionId = (req.body.sessionId)?req.body.sessionId:'';		
 		var botResponses = require('./'+requestSource.toLowerCase());		
@@ -17,7 +17,6 @@ botHandlers.processRequest = function(req, res){
 		//const googleAssistantRequest = 'google'; // Constant to identify Google Assistant requests		
 		//const app = new DialogflowApp({request: req, response: res});
 		console.log(sessionId);
-		var actionValue = "";
 		//consoe.log(req.session);
 		if(typeof(incidentTickets[sessionId])=='undefined') {			
 			incidentTickets[sessionId] = {};
@@ -26,7 +25,7 @@ botHandlers.processRequest = function(req, res){
 		}else{
 			console.log(incidentTickets[sessionId]);
 		}
-		if(action !='greeting'){
+		if(action !='greeting'&&payloadText){
 			var nextOptions = payloadText.split('-');		
 			nextOptions[1] = nextOptions[1].trim();
 			nextOptions[2] = nextOptions[2].trim();
@@ -34,7 +33,8 @@ botHandlers.processRequest = function(req, res){
 			incidentTickets[sessionId][nextOptions[1]] = nextOptions[2];	
 			actionValue = nextOptions[2]
 		}					
-		botResponses.generateResponse(action, requestText, sessionId, actionValue)
+		console.log(actionValue);
+		botResponses.generateResponse(action, sessionId, actionValue)
 		.then(function(responseJson){
 			console.log(responseJson);
 			if(responseJson.action == 'create')	{			
@@ -110,7 +110,8 @@ function createIncident(sessId){
 }
 function trackIncident(incNum){
 	return new Promise(function(resolve,reject){
-		var fstr = incNum.substring(0,3).toLowerCase();
+		console.log('tracking started');
+		var fstr = incNum.substring(0,3);
 		var sstr = incNum.substring(3);
 		var rsp = {  
 					"speech":"",
@@ -121,32 +122,33 @@ function trackIncident(incNum){
 						}
 					}
 				}
+				console.log(fstr == 'inc'&&!isNaN(sstr));
 		if(fstr == 'inc'&&!isNaN(sstr)){
 			var options = { 
 				method: 'GET',
 				url: 'https://dev18442.service-now.com/api/now/v1/table/incident',
 				qs: { 
-					number: ticketnumber 
+					number: incNum.toUpperCase()
 				},
 				headers:{
 					'postman-token': '5441f224-d11a-2f78-69cd-51e58e2fbdb6',
 					'cache-control': 'no-cache',
 					authorization: 'Basic MzMyMzg6YWJjMTIz' 
-				} 
+				},json: true  
 			};
 			request(options, function (error, response, body) {
 				if (error) {
-					rsp.data.facebook.text = JSON.stringify(error);
+					rsp.data.facebook.text = "Incident not exist : "+JSON.stringify(error);
 				}else{			
-					console.log(body);
-					rsp.data.facebook.text = body	
+					rsp.data.facebook.text = "incident exist : Incident updated on : "+body.result[0].sys_updated_on;
 				}
 				resolve(rsp);
 			});
 		}else{
 			rsp.data.facebook.text = "Please enter valid incident number";
+			resolve(rsp);
 		}
-		resolve(rsp);
+		
 	});
 }
 

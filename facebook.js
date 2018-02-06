@@ -1,7 +1,7 @@
 var sNow 	= 	require('./config');
 var responses = {};
 
-responses.generateResponse = function(action,requestText,sessId, actionValue){
+responses.generateResponse = function(action, sessId, actionValue){
 	return new Promise(function(resolve, reject){
 		console.log('generate Response started');
 		var responseContent={
@@ -10,11 +10,12 @@ responses.generateResponse = function(action,requestText,sessId, actionValue){
 			imgUrl:"http://www.cromacampus.com/wp-content/uploads/2017/05/servicenow-tool-training.png",
 			data:""	
 		};				
+		actionValue = actionValue.toLowerCase();
 		if(action == 'greeting'){
 			responseContent.title = "Hi, I am ServiceNow, I can help u to create or track incidents. please select an option from below menu, so I can help u";	
 			responseContent.subTitle = 'menu';	
 			responseContent.data = sNow.serviceNow.menu;
-		}else if(action == "menu"&&actionValue == 'Create'){			
+		}else if(action == "menu"&&actionValue == 'create'){			
 			console.log(action);
 			responseContent.title = "please select caller";	
 			responseContent.subTitle = 'caller';	
@@ -62,7 +63,7 @@ responses.generateResponse = function(action,requestText,sessId, actionValue){
 		}
 		if(action == "assignedTo"){
 			resolve({action:"create",sessionId:sessId});
-		}else if(action == 'menu'&&actionValue == 'Track'){
+		}else if(action == 'menu'&&actionValue == 'track'){
 			resolve({  
 					"speech":"",
 					"displayText":"",
@@ -72,8 +73,9 @@ responses.generateResponse = function(action,requestText,sessId, actionValue){
 						}
 					}
 				});
-		}else if(requestText.indexOf('inc')>=01){
-			resolve({action:"track",incNum:requestText});
+		}else if(actionValue.indexOf('inc')>=0){
+			console.log('tracking');
+			resolve({action:"track",incNum:actionValue});
 		}else{				
 			generateResponseTemplate(responseContent, 'quickreply')
 			.then((resp)=>{ 			
@@ -89,7 +91,6 @@ responses.generateResponse = function(action,requestText,sessId, actionValue){
 }
 
 var generateResponseTemplate = function(responseContent, responseViewModel){
-		console.log(responseViewModel);
 	return new Promise(function(resolve, reject){		
 		switch(responseViewModel.toLowerCase()){
 			case "quickreply": resolve({"templateGenerateFunc":generateQuickReplyResponseOld,"responseContent":responseContent});break;
