@@ -14,8 +14,7 @@ responses.generateResponse = function(action,requestText){
 			responseContent.title = "please select caller";	
 			responseContent.subTitle = 'caller';	
 			responseContent.data = sNow.serviceNow.caller;				
-		}else {
-			console.log(action, action.length)						
+		}else {			
 			if(action == "caller"){				
 				responseContent.title = "please select category";
 				responseContent.subTitle = 'category';				
