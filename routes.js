@@ -14,9 +14,16 @@ router.post('/botHandler',function(req, res){
 	text:"Incident Created Ur Incident Number <div style='border:1px solid red'>: INC0011025 please Not for future reference"
 	});
 	res.status(200);
-	res.json({speech:"",
-	text:"Incident Created Ur Incident Number <div style='border:1px solid red'>: INC0011025 please Not for future reference"
-	}).end();
+	res.json({  
+   "speech":"some text",
+   "displayText":"some text",
+   "data":{  
+      "facebook":{  
+         "text":{ 
+             "some text"
+         }
+      }
+	}}).end();
 			
 	/*if (req.body.result||req.body.queryResult) {
 		return botHandler.processRequest(req, res)
