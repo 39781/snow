@@ -92,7 +92,7 @@ function createIncident(sessId){
 					"displayText":"",
 					"data":{  
 						"facebook":{  
-							"text":	"";
+							"text":	""
 						}
 					}
 				}
