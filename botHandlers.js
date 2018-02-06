@@ -10,10 +10,11 @@ botHandlers.processRequest = function(req, res){
 		let requestSource = (req.body.originalRequest) ? req.body.originalRequest.source : undefined;	
 		let requestText = (req.body.originalRequest.data.message)?req.body.originalRequest.data.message.text:'';		
 		let payloadText = (req.body.originalRequest.data.message)?req.body.originalRequest.data.message.quick_reply.payload:'';
+		var sessionId = (req.body.sessionId)?req.body.sessionId:'';		
 		var botResponses = require('./'+requestSource.toLowerCase());		
 		//const googleAssistantRequest = 'google'; // Constant to identify Google Assistant requests		
 		//const app = new DialogflowApp({request: req, response: res});								
-		botResponses.generateResponse(action, requestText, payloadText)
+		botResponses.generateResponse(action, requestText, payloadText, sessionId)
 		.then(function(responseJson){
 			//responseJson.contextOut = inputContexts;						
 			resolve(responseJson);
