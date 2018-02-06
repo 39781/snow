@@ -73,7 +73,7 @@ responses.generateResponse = function(action, sessId, actionValue){
 						}
 					}
 				});
-		}else if(actionValue.indexOf('inc')>=0){
+		}else if(actionValue.indexOf('inc')>=0||incidentTickets[sessId].menu == 'Track'){
 			console.log('tracking');
 			resolve({action:"track",incNum:actionValue});
 		}else{
