@@ -9,57 +9,59 @@ responses.generateResponse = function(action,requestText){
 			subtitle:"",
 			imgUrl:"http://www.cromacampus.com/wp-content/uploads/2017/05/servicenow-tool-training.png",
 			data:""	
-		};				
+		};	
 		if(action == "createIncident"){
-			responseContent.title = "please select Caller";					
+			responseContent.title = "please select caller";	
+			responseContent.subTitle = 'caller';	
 			responseContent.data = sNow.caller;	
-			responseContent.nextIntent = 'caller';	
-		}else if(action == "caller"){
-			responseContent.title = "please select category";						
-			responseContent.data = sNow.category;
-			responseContent.nextIntent = 'category';
-		}else if(action == "category"){			
-			responseContent.title = "please select sub category"						
-			responseContent.data = sNow.subCategory;
-			responseContent.nextIntent = 'subCategory';
-		}else if(action == "subCategory"){
-			responseContent.title = "please select sub contactType"						
-			responseContent.data = sNow.contactType;
-			responseContent.nextIntent = 'contactType';
-		}else if(action == "contactType"){
-			responseContent.title = "please select Incident state"						
-			responseContent.data = sNow.incidentState;
-			responseContent.nextIntent = 'incidentState';
-		}else if(action == "incidentState"){
-			responseContent.title = "please select  state"						
-			responseContent.data = sNow.state;
-			responseContent.nextIntent = 'state';
-		}else if(action == "state"){
-			responseContent.title = "please select impact"						
-			responseContent.data = sNow.impact;
-			responseContent.nextIntent = 'impact';
-		}else if(action == "impact"){
-			responseContent.title = "please select urgency"						
-			responseContent.data = sNow.urgency;
-			responseContent.nextIntent = 'urgency';
-		}else if(action == "urgency"){
-			responseContent.title = "please select priority"						
-			responseContent.data = sNow.priority;
-			responseContent.nextIntent = 'priority';
-		}else if(action == "priority"){
-			responseContent.title = "please select working group"						
-			responseContent.data = sNow.workingGroup;
-			responseContent.nextIntent = 'workingGroup';
-		}else if(action == "workingGroup"){
-			responseContent.title = "please select assignedTo"						
-			responseContent.data = sNow.assignedTo;
-			responseContent.nextIntent = 'assignedTo';
-		}else if(action == "assignedTo"){
-			responseContent.title = "Incident created"						
-			responseContent.data = "";
-		}
-			
-		console.log(responseContent);		
+			////responseContent.nextIntent = 'caller';	
+		}else if(action == 'default'){
+			var nextOptions =requestText.split('-')[1].trim();
+			if(nextOptions == "caller"){
+				responseContent.title = "please select category";						
+				responseContent.data = sNow.category;
+				////responseContent.nextIntent = 'category';
+			}else if(nextOptions == "category"){			
+				responseContent.title = "please select sub category"						
+				responseContent.data = sNow.subCategory;
+				////responseContent.nextIntent = 'subCategory';
+			}else if(nextOptions == "subCategory"){
+				responseContent.title = "please select sub contactType"						
+				responseContent.data = sNow.contactType;
+				//responseContent.nextIntent = 'contactType';
+			}else if(nextOptions == "contactType"){
+				responseContent.title = "please select Incident state"						
+				responseContent.data = sNow.incidentState;
+				//responseContent.nextIntent = 'incidentState';
+			}else if(nextOptions == "incidentState"){
+				responseContent.title = "please select  state"						
+				responseContent.data = sNow.state;
+				//responseContent.nextIntent = 'state';
+			}else if(nextOptions == "state"){
+				responseContent.title = "please select impact"						
+				responseContent.data = sNow.impact;
+				//responseContent.nextIntent = 'impact';
+			}else if(nextOptions == "impact"){
+				responseContent.title = "please select urgency"						
+				responseContent.data = sNow.urgency;
+				//responseContent.nextIntent = 'urgency';
+			}else if(nextOptions == "urgency"){
+				responseContent.title = "please select priority"						
+				responseContent.data = sNow.priority;
+				//responseContent.nextIntent = 'priority';
+			}else if(nextOptions == "priority"){
+				responseContent.title = "please select working group"						
+				responseContent.data = sNow.workingGroup;
+				//responseContent.nextIntent = 'workingGroup';
+			}else if(nextOptions == "workingGroup"){
+				responseContent.title = "please select assignedTo"						
+				responseContent.data = sNow.assignedTo;
+				//responseContent.nextIntent = 'assignedTo';
+			}else if(nextOptions == "assignedTo"){
+				responseContent.title = "Incident created"						
+				responseContent.data = "";
+			}
+		}		
 		generateResponseTemplate(responseContent, 'quickreply')
 		.then((resp)=>{ 			
 			//console.log(responseContent, responseViewModel);			
@@ -76,7 +78,7 @@ var generateResponseTemplate = function(responseContent, responseViewModel){
 		console.log(responseViewModel);
 	return new Promise(function(resolve, reject){		
 		switch(responseViewModel.toLowerCase()){
-			case "quickreply": resolve({"templateGenerateFunc":generateQuickReplyResponse,"responseContent":responseContent});break;
+			case "quickreply": resolve({"templateGenerateFunc":generateQuickReplyResponseOld,"responseContent":responseContent});break;
 			case "card": resolve({"templateGenerateFunc":generateCardResponse,"responseContent":responseContent});break;
 		}
 	});
@@ -88,16 +90,40 @@ var generateQuickReplyResponse = function(responseContent){
 		let responseTemplate = {};		
 		responseTemplate.displayText = "";
 		responseTemplate.speech = "";
-		responseTemplate.followupEvent= {
-			"name": responseContent.nextIntent,
+		/*responseTemplate.followupEvent= {
+			"name": //responseContent.nextIntent,
 			"data": {}
-		}	 
+		}*/	 
 		responseTemplate.messages = [{
 			'title': responseContent.title,
 			'replies':responseContent.data,
 			'type':2
 		}];
 		responseTemplate.source='servNow';
+		resolve(responseTemplate);
+	});
+}
+
+var generateQuickReplyResponseOld = function(responseContent, responseViewModel){
+	return new Promise(function(resolve, reject){
+		console.log('generating quick reply Started');				
+		let responseTemplate = {};
+		responseTemplate.displayText = "";
+		responseTemplate.data = {
+			'facebook': {
+				"text": responseContent.title,
+				"quick_replies": []
+			}
+		};	
+		console.log('loop started',responseContent.title);
+		responseContent.data.forEach(function(resp){			
+			responseTemplate.data.facebook.quick_replies.push({			
+				"content_type":"text",
+				"title": resp,
+				"payload": " you selected option - "+responseContent.subTitle+" - "+resp
+			});			
+		})		
+		console.log(responseTemplate);
 		resolve(responseTemplate);
 	});
 }
