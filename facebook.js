@@ -14,9 +14,9 @@ responses.generateResponse = function(action,requestText,sessId){
 			responseContent.title = "please select one option";	
 			responseContent.subTitle = 'menu';	
 			responseContent.data = sNow.serviceNow.menu;
-		}else if(action == 'track'){
+		}else if(action == 'Track'){
 			resolve({action:"track",sessionId:sessId});
-		}else if(action == "create"){			
+		}else if(action == "Create"){			
 			responseContent.title = "please select caller";	
 			responseContent.subTitle = 'caller';	
 			responseContent.data = sNow.serviceNow.caller;				

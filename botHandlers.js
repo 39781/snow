@@ -5,16 +5,12 @@ var botHandlers = {};
 botHandlers.processRequest = function(req, res){
 	return new Promise(function(resolve, reject){
 		console.log('Process request started');
-		let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-parameters
-		console.log('hari 1');
-		let parameters = req.body.result.parameters; // https://dialogflow.com/docs/actions-and-parameters
-		console.log('hari 2');
+		let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-parameters		
+		let parameters = req.body.result.parameters; // https://dialogflow.com/docs/actions-and-parameters		
 		let inputContexts = req.body.result.contexts; // https://dialogflow.com/docs/contexts
 		let requestSource = (req.body.originalRequest) ? req.body.originalRequest.source : undefined;	
-		let requestText = (req.body.originalRequest.data.message)?req.body.originalRequest.data.message.text:'';		
-		console.log('hari 3');
-		let payloadText = (req.body.originalRequest.data.message.quick_reply)?req.body.originalRequest.data.message.quick_reply.payload:'';
-		console.log('hari 4');
+		let requestText = (req.body.originalRequest.data.message)?req.body.originalRequest.data.message.text:'';				
+		let payloadText = (req.body.originalRequest.data.message.quick_reply)?req.body.originalRequest.data.message.quick_reply.payload:'';		
 		var sessionId = (req.body.sessionId)?req.body.sessionId:'';		
 		var botResponses = require('./'+requestSource.toLowerCase());		
 		
