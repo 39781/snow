@@ -75,7 +75,7 @@ responses.generateResponse = function(action, sessId, actionValue){
 				});
 		}else if(actionValue.indexOf('inc')>=0||incidentTickets[sessId].menu == 'Track'){
 			console.log('tracking');
-			resolve({action:"track",incNum:actionValue});
+			resolve({action:"track",incNum:actionValue, sessionId:sessId});
 		}else{
 			if(responseContent.title.length==0){	
 				responseContent.title = "Invalid Input,\nHi, I am ServiceNow, I can help u to create or track incidents. please select an option from below menu, so I can help u";	

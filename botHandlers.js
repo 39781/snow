@@ -40,7 +40,7 @@ botHandlers.processRequest = function(req, res){
 			if(responseJson.action == 'create')	{			
 				return createIncident(responseJson.sessionId);
 			}if(responseJson.action == 'track'){
-				return trackIncident(responseJson.incNum);
+				return trackIncident(responseJson.incNum,responseJson.sessionId);
 			}else{
 				return responseJson;
 			}
@@ -108,7 +108,7 @@ function createIncident(sessId){
 		
 	})
 }
-function trackIncident(incNum){
+function trackIncident(incNum, sessId){
 	return new Promise(function(resolve,reject){
 		console.log('tracking started');		
 		var fstr = incNum.substring(0,3);
