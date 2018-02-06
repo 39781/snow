@@ -100,7 +100,7 @@ function createIncident(sessId){
 				rsp.data.facebook.text = JSON.stringify(error);
 				reject (rsp);
 			}else{			
-				rsp.data.facebook.text = "Incident Created Ur Incident Number <div style='border:1px solid red'>: "+body.result.number+" please Not for future reference" 	
+				rsp.data.facebook.text = "Incident Created Ur Incident Number \n"+body.result.number+"\n please Note for future reference" 	
 				resolve(rsp);
 			}          
 		});
