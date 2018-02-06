@@ -40,15 +40,7 @@ botHandlers.processRequest = function(req, res){
 			if(responseJson.action == 'create')	{			
 				return createIncident(responseJson.sessionId);
 			}if(responseJson.action == 'track'){
-				return {  
-					"speech":"",
-					"displayText":"",
-					"data":{  
-						"facebook":{  
-							"text":	"Please enter incidet number"
-						}
-					}
-				}
+				return trackIncident(responseJson.incNum);
 			}else{
 				return responseJson;
 			}
@@ -108,14 +100,54 @@ function createIncident(sessId){
 				}
 			if (error) {
 				rsp.data.facebook.text = JSON.stringify(error);
-				reject (rsp);
 			}else{			
 				rsp.data.facebook.text = "Incident Created Ur Incident Number \n"+body.result.number+"\n please Note for future reference" 	
-				resolve(rsp);
-			}          
+			}
+			resolve(rsp);
 		});
 		
 	})
+}
+function trackIncident(incNum){
+	return new Promise(function(resolve,reject){
+		var fstr = incNum.substring(0,3).toLowerCase();
+		var sstr = incNum.substring(3);
+		var rsp = {  
+					"speech":"",
+					"displayText":"",
+					"data":{  
+						"facebook":{  
+							"text":	""
+						}
+					}
+				}
+		if(fstr == 'inc'&&!isNaN(sstr)){
+			var options = { 
+				method: 'GET',
+				url: 'https://dev18442.service-now.com/api/now/v1/table/incident',
+				qs: { 
+					number: ticketnumber 
+				},
+				headers:{
+					'postman-token': '5441f224-d11a-2f78-69cd-51e58e2fbdb6',
+					'cache-control': 'no-cache',
+					authorization: 'Basic MzMyMzg6YWJjMTIz' 
+				} 
+			};
+			request(options, function (error, response, body) {
+				if (error) {
+					rsp.data.facebook.text = JSON.stringify(error);
+				}else{			
+					console.log(body);
+					rsp.data.facebook.text = body	
+				}
+				resolve(rsp);
+			});
+		}else{
+			rsp.data.facebook.text = "Please enter valid incident number";
+		}
+		resolve(rsp);
+	});
 }
 
 module.exports = botHandlers;

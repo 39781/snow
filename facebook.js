@@ -63,7 +63,17 @@ responses.generateResponse = function(action,requestText,sessId, actionValue){
 		if(action == "assignedTo"){
 			resolve({action:"create",sessionId:sessId});
 		}else if(action == 'menu'&&actionValue == 'Track'){
-			resolve({action:"track",sessionId:sessId});
+			resolve({  
+					"speech":"",
+					"displayText":"",
+					"data":{  
+						"facebook":{  
+							"text":	"Please enter incident number"
+						}
+					}
+				});
+		}else if(requestText.indexOf('inc')>=01){
+			resolve({action:"track",incNum:requestText});
 		}else{				
 			generateResponseTemplate(responseContent, 'quickreply')
 			.then((resp)=>{ 			
