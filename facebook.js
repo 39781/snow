@@ -1,7 +1,7 @@
 var sNow 	= 	require('./config');
 var responses = {};
 
-responses.generateResponse = function(action,requestText, contentType){
+responses.generateResponse = function(action,requestText){
 	return new Promise(function(resolve, reject){
 		console.log('generate Response started');
 		var responseContent={
@@ -16,47 +16,47 @@ responses.generateResponse = function(action,requestText, contentType){
 			responseContent.data = sNow.serviceNow.caller;				
 		}else {
 			console.log('action default')						
-			if(contentType == "caller"){				
+			if(action == "caller"){				
 				responseContent.title = "please select category";
 				responseContent.subTitle = 'category';				
 				responseContent.data = sNow.serviceNow.category;				
-			}else if(contentType == "category"){					
+			}else if(action == "category"){					
 				responseContent.title = "please select sub category"						
 				responseContent.data = sNow.serviceNow.subCategory;
 				responseContent.subTitle = 'subCategory';				
-			}else if(contentType == "subCategory"){				
+			}else if(action == "subCategory"){				
 				responseContent.title = "please select sub contactType"						
 				responseContent.data = sNow.serviceNow.contactType;
 				responseContent.subTitle = 'contactType';				
-			}else if(contentType == "contactType"){				
+			}else if(action == "contactType"){				
 				responseContent.title = "please select Incident state"						
 				responseContent.subTitle = 'incidentState';
 				responseContent.data = sNow.serviceNow.incidentState;				
-			}else if(contentType == "incidentState"){
+			}else if(action == "incidentState"){
 				responseContent.title = "please select  state"						
 				responseContent.data = sNow.serviceNow.state;
 				responseContent.subTitle = 'state';				
-			}else if(contentType == "state"){				
+			}else if(action == "state"){				
 				responseContent.title = "please select impact"						
 				responseContent.data = sNow.serviceNow.impact;
 				responseContent.subTitle = 'impact';				
-			}else if(contentType == "impact"){				
+			}else if(action == "impact"){				
 				responseContent.title = "please select urgency"						
 				responseContent.data = sNow.serviceNow.urgency;
 				responseContent.subTitle = 'urgency';				
-			}else if(contentType == "urgency"){
+			}else if(action == "urgency"){
 				responseContent.title = "please select priority"						
 				responseContent.data = sNow.serviceNow.priority;
 				responseContent.subTitle = 'priority';				
-			}else if(contentType == "priority"){				
+			}else if(action == "priority"){				
 				responseContent.title = "please select working group"						
 				responseContent.data = sNow.serviceNow.workingGroup;				
 				responseContent.subTitle = 'workingGroup';
-			}else if(contentType == "workingGroup"){				
+			}else if(action == "workingGroup"){				
 				responseContent.title = "please select assignedTo"						
 				responseContent.data = sNow.serviceNow.assignedTo;	
 				responseContent.subTitle = 'assignedTo';				
-			}else if(contentType == "assignedTo"){
+			}else if(action == "assignedTo"){
 				responseContent.title = "Incident created"						
 				responseContent.data = "";
 			}

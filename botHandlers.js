@@ -14,17 +14,24 @@ botHandlers.processRequest = function(req, res){
 		var botResponses = require('./'+requestSource.toLowerCase());		
 		//const googleAssistantRequest = 'google'; // Constant to identify Google Assistant requests		
 		//const app = new DialogflowApp({request: req, response: res});
-		
+		console.log(sessionId);
 		if(typeof(req.session[sessionId])=='undefined') {
+			
 			req.session[sessionId]= {};
+			console.log(req.session[sessionId]);
 		}else{
 			console.log(req.session[sessionId]);
 		}
-		var nextOptions =payloadText.split('-');		
-		nextOptions[1] = nextOptions[1].trim();
-		nextOptions[2] = nextOptions[2].trim();		
-		req.session[sessionId][nextOptions[1]] = nextOptions[2];
-		botResponses.generateResponse(action, requestText, nextOptions[1])
+		
+		if(['Create Incident','Track Incident'].indexOf(payloadText)<0){
+			var nextOptions = payloadText.split('-');		
+			nextOptions[1] = nextOptions[1].trim();
+			nextOptions[2] = nextOptions[2].trim();
+			action = nextOptions[2];
+			req.session[sessionId][nextOptions[1]] = nextOptions[2];
+		}
+						
+		botResponses.generateResponse(action, requestText)
 		.then(function(responseJson){
 			//responseJson.contextOut = inputContexts;			
 			resolve(responseJson);
