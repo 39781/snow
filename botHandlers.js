@@ -85,6 +85,7 @@ function createIncident(sessId){
 			},			
 			json: true 
 		}; 
+		delete incidentTickets[sessId];
 		console.log(options);
 		request(options, function (error, response, body) {
 			if (error) {
