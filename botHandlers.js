@@ -36,8 +36,9 @@ botHandlers.processRequest = function(req, res){
 		}					
 		botResponses.generateResponse(action, requestText, sessionId, actionValue)
 		.then(function(responseJson){
-			if(responseJson.action == 'create'){
-				return createIncident(sessId);
+			console.log(responseJson);
+			if(responseJson.action == 'create')	{			
+				return createIncident(responseJson.sessionId);
 			}else{
 				return responseJson;
 			}
@@ -55,6 +56,7 @@ botHandlers.processRequest = function(req, res){
 }
 
 function createIncident(sessId){
+	console.log('create started');
 	return new Promise(function(resolve,reject){
 		var options = { method: 'POST',
 			url: 'https://dev18442.service-now.com/api/now/v1/table/incident',

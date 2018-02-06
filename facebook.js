@@ -9,8 +9,7 @@ responses.generateResponse = function(action,requestText,sessId, actionValue){
 			subtitle:"",
 			imgUrl:"http://www.cromacampus.com/wp-content/uploads/2017/05/servicenow-tool-training.png",
 			data:""	
-		};		
-		console.log(action);
+		};				
 		if(action == 'greeting'){
 			responseContent.title = "please select one option";	
 			responseContent.subTitle = 'menu';	
