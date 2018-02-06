@@ -56,19 +56,20 @@ botHandlers.processRequest = function(req, res){
 }
 
 function createIncident(sessId){
-	console.log('create started');
+	console.log('creation started');
 	return new Promise(function(resolve,reject){
-		var options = { method: 'POST',
+		var options = { 
+			method: 'POST',
 			url: 'https://dev18442.service-now.com/api/now/v1/table/incident',
 			headers:{ 
 				'postman-token': 'd6253bf3-ff31-fb21-7741-3dd02c84e8bb',
 				'cache-control': 'no-cache',
-				'authorization': 'Basic MzMyMzg6YWJjMTIz',
+				authorization: 'Basic MzMyMzg6YWJjMTIz',
 				'content-type': 'application/json' 
 			},
 			body:{ 
 				short_description	: 	'testing incident',
-				caller_id			: 	'TST'+Math.rand(),
+				caller_id			: 	'TST'+Math.round(Math.random()*100),
 				Caller				:	incidentTickets[sessId].caller,
 				urgency				: 	incidentTickets[sessId].urgency,
 				state				:	incidentTickets[sessId].state,
@@ -81,17 +82,20 @@ function createIncident(sessId){
 				contact_type		:	incidentTickets[sessId].contactType,
 				comments			: 	'Chatbot Testing',
 				Assigned_to			:	incidentTickets[sessId].assignedTo		
-			},
+			},			
 			json: true 
 		}; 
-
+		console.log(options);
 		request(options, function (error, response, body) {
 			if (error) {
 				console.log('error',error);
 				reject (error);
 			}else{
-				console.log('ticket created',body);
-				resolve(body);
+				console.log('ticket created',body);				
+				resolve({
+					speech:"",
+					text:"Incident Created Ur Incident Number <div style='border:1px solid red'>: "+body.result.number+"<div>\n please Not for future reference" 
+				});
 			}          
 		});
 		
