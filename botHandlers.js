@@ -45,7 +45,7 @@ botHandlers.processRequest = function(req, res){
 					"displayText":"",
 					"data":{  
 						"facebook":{  
-							"text":	"Please enter incidet number";
+							"text":	"Please enter incidet number"
 						}
 					}
 				}
