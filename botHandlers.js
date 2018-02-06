@@ -85,17 +85,15 @@ function createIncident(sessId){
 			},			
 			json: true 
 		}; 
-		delete incidentTickets[sessId];
-		console.log(options);
+		delete incidentTickets[sessId];		
 		request(options, function (error, response, body) {
 			if (error) {
 				console.log('error',error);
 				reject (error);
-			}else{
-				console.log('ticket created',body);				
+			}else{				
 				resolve({
 					speech:"",
-					text:"Incident Created Ur Incident Number <div style='border:1px solid red'>: "+body.result.number+"<div>\n please Not for future reference" 
+					displayText:"Incident Created Ur Incident Number <div style='border:1px solid red'>: "+body.result.number+" please Not for future reference" 
 				});
 			}          
 		});
