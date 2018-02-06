@@ -10,18 +10,9 @@ router.get('/',function(req, res){
 router.post('/botHandler',function(req, res){
 	//console.log('Dialogflow Request headers: ' + JSON.stringify(req.headers));
 	console.log('Dialogflow Request body: ' + JSON.stringify(req.body));		
-	res.status(200);
-	res.json({  
-				"speech":"some text",
-				"displayText":"some text",
-				"data":{  
-				  "facebook":{  
-						"text":				 "some text"						
-					}
-				}
-			}).end();
+	res.status(200);	
 			
-	/*if (req.body.result||req.body.queryResult) {
+	if (req.body.result||req.body.queryResult) {
 		return botHandler.processRequest(req, res)
 		.then(function(responseJson){
 			console.log(JSON.stringify(responseJson));
@@ -35,7 +26,7 @@ router.post('/botHandler',function(req, res){
 	} else {
 		console.log('Invalid Request');
 		return response.status(400).end('Invalid Webhook Request');
-	}*/
+	}
 });
 
 

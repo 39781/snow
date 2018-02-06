@@ -91,9 +91,14 @@ function createIncident(sessId){
 				console.log('error',error);
 				reject (error);
 			}else{				
-				resolve({
-					speech:"",
-					displayText:"Incident Created Ur Incident Number <div style='border:1px solid red'>: "+body.result.number+" please Not for future reference" 
+				resolve({  
+					"speech":"",
+					"displayText":"",
+					"data":{  
+						"facebook":{  
+							"text":	"Incident Created Ur Incident Number <div style='border:1px solid red'>: "+body.result.number+" please Not for future reference" 
+						}
+					}
 				});
 			}          
 		});
