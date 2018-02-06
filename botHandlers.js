@@ -110,7 +110,7 @@ function createIncident(sessId){
 }
 function trackIncident(incNum){
 	return new Promise(function(resolve,reject){
-		console.log('tracking started');
+		console.log('tracking started');		
 		var fstr = incNum.substring(0,3);
 		var sstr = incNum.substring(3);
 		var rsp = {  
@@ -144,6 +144,7 @@ function trackIncident(incNum){
 				}
 				resolve(rsp);
 			});
+			delete incidentTickets[sessId];
 		}else{
 			rsp.data.facebook.text = "Please enter valid incident number";
 			resolve(rsp);
