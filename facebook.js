@@ -16,6 +16,7 @@ responses.generateResponse = function(action,requestText){
 			responseContent.data = sNow.caller;	
 			////responseContent.nextIntent = 'caller';	
 		}else if(action == 'default'){
+			console.log('action default')
 			var nextOptions =requestText.split('-')[1].trim();
 			if(nextOptions == "caller"){
 				responseContent.title = "please select category";						
