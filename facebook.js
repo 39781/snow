@@ -15,8 +15,6 @@ responses.generateResponse = function(action,requestText,sessId, actionValue){
 			responseContent.title = "please select one option";	
 			responseContent.subTitle = 'menu';	
 			responseContent.data = sNow.serviceNow.menu;
-		}else if(action == 'menu'&&actionValue == 'Track'){
-			resolve({action:"track",sessionId:sessId});
 		}else if(action == "menu"&&actionValue == 'Create'){			
 			console.log(action);
 			responseContent.title = "please select caller";	
@@ -62,18 +60,22 @@ responses.generateResponse = function(action,requestText,sessId, actionValue){
 			responseContent.title = "please select assignedTo"						
 			responseContent.data = sNow.serviceNow.assignedTo;	
 			responseContent.subTitle = 'assignedTo';				
-		}else if(action == "assignedTo"){
+		}
+		if(action == "assignedTo"){
 			resolve({action:"create",sessionId:sessId});
-		}				
-		generateResponseTemplate(responseContent, 'quickreply')
-		.then((resp)=>{ 			
-			//console.log(responseContent, responseViewModel);			
-			return resp.templateGenerateFunc(resp.responseContent);
-		})
-		.then((resp)=>{
-			resolve(resp); 
-		})					
-		.catch((err)=>{ reject(err) });		
+		}else if(action == 'menu'&&actionValue == 'Track'){
+			resolve({action:"track",sessionId:sessId});
+		}else{				
+			generateResponseTemplate(responseContent, 'quickreply')
+			.then((resp)=>{ 			
+				//console.log(responseContent, responseViewModel);			
+				return resp.templateGenerateFunc(resp.responseContent);
+			})
+			.then((resp)=>{
+				resolve(resp); 
+			})					
+			.catch((err)=>{ reject(err) });		
+		}
 	});
 }
 

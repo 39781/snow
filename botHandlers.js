@@ -33,8 +33,7 @@ botHandlers.processRequest = function(req, res){
 			action = nextOptions[1];
 			intentTickets[sessionId][nextOptions[1]] = nextOptions[2];	
 			actionValue = nextOptions[2]
-		}			
-
+		}					
 		botResponses.generateResponse(action, requestText, sessionId, actionValue)
 		.then(function(responseJson){
 			if(responseJson.action == 'create'){
