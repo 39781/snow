@@ -56,7 +56,7 @@ botHandlers.processRequest = function(req, res){
 }
 
 function createIncident(sessId){
-	console.log('creation started');
+	console.log('creation started');		
 	return new Promise(function(resolve,reject){
 		var options = { 
 			method: 'POST',
@@ -69,7 +69,7 @@ function createIncident(sessId){
 			},
 			body:{ 
 				short_description	: 	'testing incident',
-				caller_id			: 	'TST'+Math.round(Math.random()*100),
+				caller_id			: 	'TST',
 				Caller				:	incidentTickets[sessId].caller,
 				urgency				: 	incidentTickets[sessId].urgency,
 				state				:	incidentTickets[sessId].state,
