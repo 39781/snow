@@ -86,8 +86,10 @@ function createIncident(sessId){
 
 		request(options, function (error, response, body) {
 			if (error) {
+				console.log('error',error);
 				reject (error);
 			}else{
+				console.log('ticket created',body);
 				resolve(body);
 			}          
 		});
