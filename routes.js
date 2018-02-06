@@ -10,15 +10,15 @@ router.get('/',function(req, res){
 router.post('/botHandler',function(req, res){
 	//console.log('Dialogflow Request headers: ' + JSON.stringify(req.headers));
 	console.log('Dialogflow Request body: ' + JSON.stringify(req.body));	
-	/*console.log({speech:"",
+	console.log({speech:"",
 	text:"Incident Created Ur Incident Number <div style='border:1px solid red'>: INC0011025 please Not for future reference"
 	});
 	res.status(200);
 	res.json({speech:"",
 	text:"Incident Created Ur Incident Number <div style='border:1px solid red'>: INC0011025 please Not for future reference"
-	}).end();*/
+	}).end();
 			
-	if (req.body.result||req.body.queryResult) {
+	/*if (req.body.result||req.body.queryResult) {
 		return botHandler.processRequest(req, res)
 		.then(function(responseJson){
 			console.log(JSON.stringify(responseJson));
@@ -32,7 +32,7 @@ router.post('/botHandler',function(req, res){
 	} else {
 		console.log('Invalid Request');
 		return response.status(400).end('Invalid Webhook Request');
-	}
+	}*/
 });
 
 
