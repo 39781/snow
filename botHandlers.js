@@ -141,7 +141,7 @@ function trackIncident(incNum, sessId){
 					rsp.data.facebook.text = "Incident not exist : "+JSON.stringify(error);
 				}else{			
 					if(body.error){
-						rsp.data.facebook.text = "incident not exist ";
+						rsp.data.facebook.text = "incident not exist\n please enter valid incident";
 					}else{
 						rsp.data.facebook.text = "incident exist : Incident updated on : "+body.result[0].sys_updated_on;
 					}

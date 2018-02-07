@@ -15,7 +15,7 @@ responses.generateResponse = function(action, sessId, actionValue){
 			responseContent.title = "Hi, I am ServiceNow, I can help u to create or track incidents. please select an option from below menu, so I can help u";	
 			responseContent.subTitle = 'menu';	
 			responseContent.data = sNow.serviceNow.menu;
-		}else if(action == "menu"&&actionValue == 'create'){			
+		}else if(actionValue == 'create'){			
 			console.log(action);
 			responseContent.title = "please select caller";	
 			responseContent.subTitle = 'caller';	
@@ -63,7 +63,7 @@ responses.generateResponse = function(action, sessId, actionValue){
 		}
 		if(action == "assignedTo"){
 			resolve({action:"create",sessionId:sessId});
-		}else if(action == 'menu'&&actionValue == 'track'){
+		}else if(actionValue == 'track'){
 			resolve({  
 					"speech":"",
 					"displayText":"",
