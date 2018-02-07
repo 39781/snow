@@ -140,7 +140,13 @@ function trackIncident(incNum, sessId){
 				if (error) {
 					rsp.data.facebook.text = "Incident not exist : "+JSON.stringify(error);
 				}else{			
-					rsp.data.facebook.text = "incident exist : Incident updated on : "+body.result[0].sys_updated_on;
+					if(body.error){
+						rsp.data.facebook.text = "incident not exist ";
+					}else{
+						rsp.data.facebook.text = "incident exist : Incident updated on : "+body.result[0].sys_updated_on;
+					}
+					
+					
 				}
 				resolve(rsp);
 			});
