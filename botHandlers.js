@@ -1,18 +1,31 @@
 var DialogflowApp	=	require('actions-on-google').DialogflowApp;
 var request			=	require('request');
+var serviceNowApi 	=	require('./serviceNow');
+var sNow 	= 	require('./config');
+
 var botHandlers = {};
 //var botResponses = require('./facebook.js');
 botHandlers.processRequest = function(req, res){
 	return new Promise(function(resolve, reject){
+		
 		console.log('Process request started');
 		let action = req.body.result.action; // https://dialogflow.com/docs/actions-and-parameters		
 		let parameters = req.body.result.parameters; // https://dialogflow.com/docs/actions-and-parameters		
 		let inputContexts = req.body.result.contexts; // https://dialogflow.com/docs/contexts
 		let requestSource = (req.body.originalRequest) ? req.body.originalRequest.source : undefined;	
-		let actionValue = (req.body.originalRequest.data.message)?req.body.originalRequest.data.message.text:'';				
-		let payloadText = (req.body.originalRequest.data.message.quick_reply)?req.body.originalRequest.data.message.quick_reply.payload:'';		
+		let payloadText = '';						
 		var sessionId = (req.body.sessionId)?req.body.sessionId:'';		
-		var botResponses = require('./'+requestSource.toLowerCase());		
+		var facebook = require('./'+requestSource.toLowerCase());	
+		
+		if(req.body.originalRequest.data.message){
+			if(req.body.originalRequest.data.message.quick_reply){
+				payloadText = req.body.originalRequest.data.message.quick_reply.payload;
+			}else{
+				payloadText = req.body.originalRequest.data.message.text;
+			}
+		}else if(req.body.originalRequest.data.postback){
+			payloadText = req.body.originalRequest.data.postback.payload;
+		}
 		
 		//const googleAssistantRequest = 'google'; // Constant to identify Google Assistant requests		
 		//const app = new DialogflowApp({request: req, response: res});
@@ -25,22 +38,31 @@ botHandlers.processRequest = function(req, res){
 		}else{
 			console.log(incidentTickets[sessionId]);
 		}
-		if(action !='greeting'&&payloadText){
-			var nextOptions = payloadText.split('-');		
-			nextOptions[1] = nextOptions[1].trim();
-			nextOptions[2] = nextOptions[2].trim();
-			action = nextOptions[1];
-			incidentTickets[sessionId][nextOptions[1]] = nextOptions[2];	
-			actionValue = nextOptions[2]
-		}					
-		console.log(actionValue);
-		botResponses.generateResponse(action, sessionId, actionValue)
+		switch(action){
+			case 'emailIntent'	:	incidentTickets[sessionId]['email'] = inputContexts[0].parameters.email;
+								action = inputContexts[0].parameters.action;
+								break;
+								
+			default			:	if(payloadText.indexOf('-')){
+									var nextOptions = payloadText.split('-');		
+									nextOptions[1] = nextOptions[1].trim();
+									nextOptions[2] = nextOptions[2].trim();
+									action = nextOptions[1];
+									incidentTickets[sessionId][nextOptions[1]] = nextOptions[2];	
+									payloadText = nextOptions[2];
+								}
+								break;
+		}
+			
+		console.log(payloadText);
+	
+		generateResponse(action, sessionId, payloadText)
 		.then(function(responseJson){
 			console.log(responseJson);
 			if(responseJson.action == 'create')	{			
-				return createIncident(responseJson.sessionId);
+				return serviceNowApi.createIncident(responseJson.sessionId);
 			}if(responseJson.action == 'track'){
-				return trackIncident(responseJson.incNum,responseJson.sessionId);
+				return serviceNowApi.trackIncident(responseJson.incNum,responseJson.sessionId);
 			}else{
 				return responseJson;
 			}
@@ -57,106 +79,74 @@ botHandlers.processRequest = function(req, res){
 	});
 }
 
-function createIncident(sessId){
-	console.log('creation started',incidentTickets[sessId]);		
-	return new Promise(function(resolve,reject){
-		var options = { 
-			method: 'POST',
-			url: 'https://dev18442.service-now.com/api/now/v1/table/incident',
-			headers:{ 
-				'postman-token': 'd6253bf3-ff31-fb21-7741-3dd02c84e8bb',
-				'cache-control': 'no-cache',
-				authorization: 'Basic MzMyMzg6YWJjMTIz',
-				'content-type': 'application/json' 
-			},
-			body:{ 
-				short_description	: 	'testing incident',
-				caller_id			: 	'TST',
-				Caller				:	incidentTickets[sessId].caller,
-				urgency				: 	incidentTickets[sessId].urgency,
-				state				:	incidentTickets[sessId].state,
-				incident_state		:	incidentTickets[sessId].incidentState,
-				category			:	incidentTickets[sessId].category,
-				subcategory			:	incidentTickets[sessId].subCategory,
-				//workingGroup		:	incidentTickets[sessId].workingGroup,
-				impact				:	incidentTickets[sessId].impact,
-				priority			:	incidentTickets[sessId].priority,
-				contact_type		:	incidentTickets[sessId].contactType,
-				comments			: 	'Chatbot Testing',
-				Assigned_to			:	incidentTickets[sessId].assignedTo		
-			},			
-			json: true 
-		}; 
-		delete incidentTickets[sessId];		
-		request(options, function (error, response, body) {
-			var rsp = {  
+function generateResponse(action, sessId, actionValue){
+	return new Promise(function(resolve, reject){
+		console.log('generate Response started');
+		var responseContent={
+			title :"",
+			subtitle:"",
+			imgUrl:"http://www.cromacampus.com/wp-content/uploads/2017/05/servicenow-tool-training.png",
+			data:""	
+		};						
+		if(/(creation|create|creat)/ig.test(action)){			
+			console.log(action);
+			responseContent.title = "please select caller";	
+			responseContent.subTitle = 'caller';	
+			responseContent.data = sNow.serviceNow.caller;				
+		}else if(action == "caller"){				
+			responseContent.title = "please select category";
+			responseContent.subTitle = 'category';				
+			responseContent.data = sNow.serviceNow.category;				
+		}else if(action == "category"){					
+			responseContent.title = "please select sub category"						
+			responseContent.data = sNow.serviceNow.subCategory;
+			responseContent.subTitle = 'subCategory';				
+		}else if(action == "subCategory"){				
+			responseContent.title = "please select sub contactType"						
+			responseContent.data = sNow.serviceNow.contactType;
+			responseContent.subTitle = 'contactType';				
+		}else if(action == "contactType"){				
+			responseContent.title = "please select impact"						
+			responseContent.data = sNow.serviceNow.impact;
+			responseContent.subTitle = 'impact';								
+		}else if(action == "impact"){				
+			responseContent.title = "please select urgency"						
+			responseContent.data = sNow.serviceNow.urgency;
+			responseContent.subTitle = 'urgency';				
+		}
+		if(action == "urgency"){
+			resolve({action:"create",sessionId:sessId});
+		}else if(/(track|status)/ig.test(action)){
+			resolve({  
 					"speech":"",
 					"displayText":"",
-					"data":{  
-						"facebook":{  
-							"text":	""
-						}
-					}
-				}
-			if (error) {
-				rsp.data.facebook.text = JSON.stringify(error);
-			}else{			
-				rsp.data.facebook.text = "Incident Created Ur Incident Number \n"+body.result.number+"\n please Note for future reference" 	
-			}
-			resolve(rsp);
-		});
-		
-	})
-}
-function trackIncident(incNum, sessId){
-	return new Promise(function(resolve,reject){
-		console.log('tracking started');		
-		var fstr = incNum.substring(0,3);
-		var sstr = incNum.substring(3);
-		var rsp = {  
-					"speech":"",
-					"displayText":"",
-					"data":{  
-						"facebook":{  
-							"text":	""
-						}
-					}
-				}
-				console.log(fstr == 'inc'&&!isNaN(sstr));
-		if(fstr == 'inc'&&!isNaN(sstr)){
-			var options = { 
-				method: 'GET',
-				url: 'https://dev18442.service-now.com/api/now/v1/table/incident',
-				qs: { 
-					number: incNum.toUpperCase()
-				},
-				headers:{
-					'postman-token': '5441f224-d11a-2f78-69cd-51e58e2fbdb6',
-					'cache-control': 'no-cache',
-					authorization: 'Basic MzMyMzg6YWJjMTIz' 
-				},json: true  
-			};
-			request(options, function (error, response, body) {
-				if (error) {
-					rsp.data.facebook.text = "Incident not exist : "+JSON.stringify(error);
-				}else{			
-					if(body.error){
-						rsp.data.facebook.text = "incident not exist\n please enter valid incident";
-					}else{
-						rsp.data.facebook.text = "incident exist : Incident updated on : "+body.result[0].sys_updated_on;
-					}
-					
-					
-				}
-				resolve(rsp);
-			});
-			delete incidentTickets[sessId];
+					"followupEvent":{
+						"name":"trackIntent",
+						"data":{  }
+					}					
+				});
+		}else if(actionValue.toLowerCase().indexOf('inc')==0){
+			console.log('tracking');
+			resolve({action:"track",incNum:actionValue, sessionId:sessId});
 		}else{
-			rsp.data.facebook.text = "Please enter valid incident number";
-			resolve(rsp);
+			if(responseContent.title.length==0){	
+				responseContent.title = "Invalid Input,\nHi, I am ServiceNow, I can help u to create or track incidents. please select an option from below menu, so I can help u";	
+				responseContent.subTitle = 'menu';	
+				responseContent.data = sNow.serviceNow.menu;
+			}
+						
 		}
 		
+		facebook.generateResponseTemplate(responseContent, 'quickreply')
+		.then((resp)=>{ 					
+			return facebook[resp.templateGenerateFunc](resp.responseContent);
+		})
+		.then((resp)=>{
+			resolve(resp); 
+		})					
+		.catch((err)=>{ reject(err) });
 	});
 }
+
 
 module.exports = botHandlers;

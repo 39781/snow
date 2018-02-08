@@ -5,8 +5,7 @@ var config ={
 		subCategory		: ['Antivirus','Email','Internal Application'],
 		contactType 	: ['Email','Phone','Self-service','Walk-in'],		
 		impact 			: ['High','Medium','Low'],
-		urgency 		: ['High','Medium','Low'],
-		priority 		: ['5 - planning'],		
+		urgency 		: ['High','Medium','Low'],		
 		caller			: ['Hariprasad','Harikrishna']		
 	},	
 }
