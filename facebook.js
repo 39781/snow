@@ -11,7 +11,7 @@ responses.generateResponse = function(action, sessId, actionValue){
 			data:""	
 		};				
 		actionValue = actionValue.toLowerCase();
-		if(action == 'greeting'){
+		if(action == 'mainIntent'){
 			responseContent.title = "Hi, I am ServiceNow, I can help u to create or track incidents. please select an option from below menu, so I can help u";	
 			responseContent.subTitle = 'menu';	
 			responseContent.data = sNow.serviceNow.menu;
