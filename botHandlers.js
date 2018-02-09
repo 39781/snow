@@ -82,7 +82,7 @@ botHandlers.processRequest = function(req, res){
 
 function generateResponse(action, sessId, actionValue, requestSource){
 	return new Promise(function(resolve, reject){
-		console.log('generate Response started');
+		console.log('generate Response started', action);
 		var facebook = require('./'+requestSource.toLowerCase());
 		
 		var responseContent={
@@ -91,8 +91,7 @@ function generateResponse(action, sessId, actionValue, requestSource){
 			imgUrl:"http://www.cromacampus.com/wp-content/uploads/2017/05/servicenow-tool-training.png",
 			data:""	
 		};						
-		if(/(creation|create|creat)/ig.test(action)){			
-			console.log(action);
+		if(/(creation|create|creat)/ig.test(action)){						
 			responseContent.title = "please select caller";	
 			responseContent.subTitle = 'caller';	
 			responseContent.data = sNow.serviceNow.caller;				
