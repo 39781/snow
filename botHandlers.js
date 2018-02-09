@@ -39,20 +39,19 @@ botHandlers.processRequest = function(req, res){
 		}
 		switch(action){
 			case 'emailIntent'	:	incidentTickets[sessionId]['email'] = inputContexts[0].parameters.email;
-								action = inputContexts[0].parameters.action;
-								break;
+									action = inputContexts[0].parameters.action;
+									break;
 								
-			default			:	if(payloadText.indexOf('-')){
-									var nextOptions = payloadText.split('-');		
-									nextOptions[1] = nextOptions[1].trim();
-									nextOptions[2] = nextOptions[2].trim();
-									action = nextOptions[1];
-									incidentTickets[sessionId][nextOptions[1]] = nextOptions[2];	
-									payloadText = nextOptions[2];
-								}
-								break;
+			default				:	if(payloadText.indexOf('-')){
+										var nextOptions = payloadText.split('-');		
+										nextOptions[1] = nextOptions[1].trim();
+										nextOptions[2] = nextOptions[2].trim();
+										action = nextOptions[1];
+										incidentTickets[sessionId][nextOptions[1]] = nextOptions[2];	
+										payloadText = nextOptions[2];
+									}									
+									break;
 		}
-			
 		console.log(payloadText);
 	
 		generateResponse(action, sessionId, payloadText, requestSource)
@@ -130,9 +129,9 @@ function generateResponse(action, sessId, actionValue, requestSource){
 			//resolve({action:"create",sessionId:sessId});
 		}else if(/(track|status)/ig.test(action)){
 			resolve({  
-				"speech":"",
-				"displayText":"",
-				"followupEvent":{
+				speech:"",
+				displayText:"",
+				followupEvent:{
 					"name":"trackIncident",
 					"data":{  }
 				}					
