@@ -15,7 +15,6 @@ botHandlers.processRequest = function(req, res){
 		let requestSource = (req.body.originalRequest) ? req.body.originalRequest.source : undefined;	
 		let payloadText = '';						
 		var sessionId = (req.body.sessionId)?req.body.sessionId:'';		
-		var facebook = require('./'+requestSource.toLowerCase());	
 		
 		if(req.body.originalRequest.data.message){
 			if(req.body.originalRequest.data.message.quick_reply){
@@ -56,7 +55,7 @@ botHandlers.processRequest = function(req, res){
 			
 		console.log(payloadText);
 	
-		generateResponse(action, sessionId, payloadText)
+		generateResponse(action, sessionId, payloadText, requestSource)
 		.then(function(responseJson){
 			console.log(responseJson);
 			if(responseJson.action == 'create')	{			
@@ -79,9 +78,11 @@ botHandlers.processRequest = function(req, res){
 	});
 }
 
-function generateResponse(action, sessId, actionValue){
+function generateResponse(action, sessId, actionValue, requestSource){
 	return new Promise(function(resolve, reject){
 		console.log('generate Response started');
+		var facebook = require('./'+requestSource.toLowerCase());
+		
 		var responseContent={
 			title :"",
 			subtitle:"",
@@ -118,28 +119,29 @@ function generateResponse(action, sessId, actionValue){
 			resolve({action:"create",sessionId:sessId});
 		}else if(/(track|status)/ig.test(action)){
 			resolve({  
-					"speech":"",
-					"displayText":"",
-					"followupEvent":{
-						"name":"trackIntent",
-						"data":{  }
-					}					
-				});
+				"speech":"",
+				"displayText":"",
+				"followupEvent":{
+					"name":"trackIntent",
+					"data":{  }
+				}					
+			});
 		}else if(actionValue.toLowerCase().indexOf('inc')==0){
 			console.log('tracking');
 			resolve({action:"track",incNum:actionValue, sessionId:sessId});
 		}else{
-			if(responseContent.title.length==0){	
+			/*if(responseContent.title.length==0){	
 				responseContent.title = "Invalid Input,\nHi, I am ServiceNow, I can help u to create or track incidents. please select an option from below menu, so I can help u";	
 				responseContent.subTitle = 'menu';	
 				responseContent.data = sNow.serviceNow.menu;
-			}
+			}*/
 						
-		}
-		
+		}		
+		console.log('hari');
 		facebook.generateResponseTemplate(responseContent, 'quickreply')
-		.then((resp)=>{ 					
-			return facebook[resp.templateGenerateFunc](resp.responseContent);
+		.then((resp)=>{ 
+			//console.log(facebook[resp.templateGenerateFunc);
+			return resp.templateGenerateFunc(resp.responseContent);
 		})
 		.then((resp)=>{
 			resolve(resp); 

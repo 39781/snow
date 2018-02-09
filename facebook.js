@@ -1,10 +1,10 @@
 var responses = {};
 
 responses.generateResponseTemplate = function(responseContent, responseViewModel){
-	return new Promise(function(resolve, reject){		
+	return new Promise(function(resolve, reject){				
 		switch(responseViewModel.toLowerCase()){
-			case "quickreply": resolve({"templateGenerateFunc":generateQuickReplyResponseOld,"responseContent":responseContent});break;
-			case "card": resolve({"templateGenerateFunc":generateCardResponse,"responseContent":responseContent});break;
+			case "quickreply": resolve({"templateGenerateFunc":responses.generateQuickReplyResponseOld,"responseContent":responseContent});break;
+			case "card": resolve({"templateGenerateFunc":responses.generateCardResponse,"responseContent":responseContent});break;
 		}
 	});
 }
