@@ -123,14 +123,7 @@ function generateResponse(action, sessId, actionValue, requestSource){
 				"followupEvent":{
 					"name":"createIncident",
 					"data":{  
-						email		:	incidentTickets[sessId].email,	
-						impact		:	incidentTickets[sessId].impact,
-						urgency		:	incidentTickets[sessId].urgency,
-						caller		:	incidentTickets[sessId].caller,
-						category	:	incidentTickets[sessId].category,
-						subcategory	:	incidentTickets[sessId].subCategory,
-						sdesc		:	"testing",
-						contactType	:	incidentTickets[sessId].contactType										
+																
 					}
 				}					
 			});
