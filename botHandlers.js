@@ -136,18 +136,19 @@ function generateResponse(action, sessId, actionValue, requestSource){
 				responseContent.subTitle = 'menu';	
 				responseContent.data = sNow.serviceNow.menu;
 			}*/
+			console.log('hari');
+			facebook.generateResponseTemplate(responseContent, 'quickreply')
+			.then((resp)=>{ 
+				//console.log(facebook[resp.templateGenerateFunc);
+				return resp.templateGenerateFunc(resp.responseContent);
+			})
+			.then((resp)=>{
+				resolve(resp); 
+			})					
+			.catch((err)=>{ reject(err) });
 						
 		}		
-		console.log('hari');
-		facebook.generateResponseTemplate(responseContent, 'quickreply')
-		.then((resp)=>{ 
-			//console.log(facebook[resp.templateGenerateFunc);
-			return resp.templateGenerateFunc(resp.responseContent);
-		})
-		.then((resp)=>{
-			resolve(resp); 
-		})					
-		.catch((err)=>{ reject(err) });
+		
 	});
 }
 
