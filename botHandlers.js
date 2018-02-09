@@ -60,7 +60,7 @@ botHandlers.processRequest = function(req, res){
 			console.log(responseJson);
 			if(responseJson.action == 'create')	{			
 				return serviceNowApi.createIncident(responseJson.sessionId);
-			}if(responseJson.action == 'track'){
+			}else if(responseJson.action == 'track'){
 				return serviceNowApi.trackIncident(responseJson.incNum,responseJson.sessionId);
 			}else{
 				return responseJson;
