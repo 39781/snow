@@ -68,6 +68,7 @@ botHandlers.processRequest = function(req, res){
 			//responseJson.contextOut = inputContexts;						
 		})
 		.then(function(resp){
+			console.log(resp);
 			resolve(resp);
 		})
 		.catch(function(err){
