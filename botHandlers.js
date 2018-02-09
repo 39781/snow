@@ -121,7 +121,7 @@ function generateResponse(action, sessId, actionValue, requestSource){
 				"speech":"",
 				"displayText":"",
 				"followupEvent":{
-					"name":"trackIntent",
+					"name":"createIncident",
 					"data":{  
 						email		:	incidentTickets[sessId].email,	
 						impact		:	incidentTickets[sessId].impact,
