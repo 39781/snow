@@ -63,6 +63,7 @@ botHandlers.processRequest = function(req, res){
 			}else if(responseJson.action == 'track'){
 				return serviceNowApi.trackIncident(responseJson.incNum,responseJson.sessionId);
 			}else{
+				console.log('testing 1');
 				return responseJson;
 			}
 			//responseJson.contextOut = inputContexts;						
@@ -133,7 +134,7 @@ function generateResponse(action, sessId, actionValue, requestSource){
 				"speech":"",
 				"displayText":"",
 				"followupEvent":{
-					"name":"trackIntent",
+					"name":"trackIncident",
 					"data":{  }
 				}					
 			});
