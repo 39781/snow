@@ -116,8 +116,25 @@ function generateResponse(action, sessId, actionValue, requestSource){
 			responseContent.data = sNow.serviceNow.urgency;
 			responseContent.subTitle = 'urgency';				
 		}
-		if(action == "urgency"){
-			resolve({action:"create",sessionId:sessId});
+		if(action == "urgency"){			
+			resolve({  
+				"speech":"",
+				"displayText":"",
+				"followupEvent":{
+					"name":"trackIntent",
+					"data":{  
+						email		:	incidentTickets[sessId].email,	
+						impact		:	incidentTickets[sessId].impact,
+						urgency		:	incidentTickets[sessId].urgency,
+						caller		:	incidentTickets[sessId].caller,
+						category	:	incidentTickets[sessId].category,
+						subcategory	:	incidentTickets[sessId].subCategory,
+						sdesc		:	"testing",
+						contactType	:	incidentTickets[sessId].contactType										
+					}
+				}					
+			});
+			//resolve({action:"create",sessionId:sessId});
 		}else if(/(track|status)/ig.test(action)){
 			resolve({  
 				"speech":"",
