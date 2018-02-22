@@ -50,11 +50,11 @@ var serviceNowApi = {
 			
 		})
 	},
-	trackIncident:function (incNum, sessId){
+	trackIncident:function (params){
 		return new Promise(function(resolve,reject){
 			console.log('tracking started');		
-			var fstr = incNum.substring(0,3);
-			var sstr = incNum.substring(3);
+			var fstr = params.incidentNum.substring(0,3);
+			var sstr = params.incidentNum.substring(3);
 			var rsp = {  
 						"speech":"",
 						"displayText":"",
@@ -70,7 +70,7 @@ var serviceNowApi = {
 					method: 'GET',
 					url: 'https://dev18442.service-now.com/api/now/v1/table/incident',
 					qs: { 
-						number: incNum.toUpperCase()
+						number: params.incidentNum.toUpperCase()
 					},
 					headers:{
 						'postman-token': '5441f224-d11a-2f78-69cd-51e58e2fbdb6',
